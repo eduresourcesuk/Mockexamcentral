@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11+ Mock Exam - CGP GL Maths</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/pizzip@3.1.4/dist/pizzip.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/docxtemplater@3.37.6/build/docxtemplater.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+        }
+        
+        .header {
+            padding: 24px;
+            border-bottom: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #0f172a;
+            margin-bottom: 4px;
+        }
+        
+        .header p {
+            color: #64748b;
+            font-size: 14px;
+        }
+        
+        .section {
+            padding: 32px;
+        }
+        
+        .form-section {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+            color: #334155;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #3b82f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        .btn:hover {
+            background-color: #2563eb;
+        }
+        
+        .exam-section {
+            display: none;
+        }
+        
+        .exam-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .exam-title {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .timer {
+            font-size: 16px;
+            font-weight: 600;
+            background-color: #fee2e2;
+            color: #dc2626;
+            padding: 6px 12px;
+            border-radius: 20px;
+        }
+        
+        .progress-container {
+            margin-bottom: 24px;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background-color: #e2e8f0;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background-color: #3b82f6;
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .question-container {
+            margin-bottom: 32px;
+        }
+        
+        .question {
+            display: none;
+        }
+        
+        .question.active {
+            display: block;
+        }
+        
+        .question-header {
+            margin-bottom: 20px;
+        }
+        
+        .question-number {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 4px;
+        }
+        
+        .question-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        
+        .question-image {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            padding: 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .option:hover {
+            border-color: #cbd5e1;
+        }
+        
+        .option.selected {
+            border-color: #3b82f6;
+            background-color: #eff6ff;
+        }
+        
+        .option input {
+            margin-right: 12px;
+            transform: scale(1.2);
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+        
+        .nav-btn {
+            padding: 12px 24px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: white;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            background-color: #f1f5f9;
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .next-btn, .submit-btn {
+            background-color: #3b82f6;
+            color: white;
+            border: 1px solid #3b82f6;
+        }
+        
+        .next-btn:hover, .submit-btn:hover {
+            background-color: #2563eb;
+        }
+        
+        .submit-btn {
+            display: none;
+        }
+        
+        .question-nav {
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 8px;
+            margin: 24px 0;
+        }
+        
+        .question-nav-btn {
+            width: 32px;
+            height: 32px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background: white;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+        
+        .question-nav-btn:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .question-nav-btn.answered {
+            background-color: #dcfce7;
+            border-color: #bbf7d0;
+        }
+        
+        .question-nav-btn.current {
+            background-color: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        
+        .result-section {
+            display: none;
+        }
+        
+        .result-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .result-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        
+        .score {
+            font-size: 48px;
+            font-weight: 700;
+            color: #3b82f6;
+            margin: 24px 0;
+        }
+        
+        .feedback {
+            font-size: 18px;
+            color: #64748b;
+            margin-bottom: 32px;
+        }
+        
+        .review-section {
+            margin-top: 32px;
+        }
+        
+        .review-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .question-review {
+            margin-bottom: 24px;
+            padding: 20px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #f8fafc;
+        }
+        
+        .question-review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        
+        .question-review-number {
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .status.correct {
+            background-color: #dcfce7;
+            color: #166534;
+        }
+        
+        .status.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .question-review-text {
+            font-size: 16px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+        
+        .user-answer, .correct-answer {
+            margin: 8px 0;
+            padding: 8px 12px;
+            border-radius: 6px;
+        }
+        
+        .user-answer {
+            background-color: #fffbeb;
+            border: 1px solid #fde68a;
+        }
+        
+        .correct-answer {
+            background-color: #dcfce7;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .explanation {
+            margin-top: 12px;
+            padding: 12px;
+            background-color: #eff6ff;
+            border-radius: 6px;
+            border-left: 4px solid #3b82f6;
+            font-size: 14px;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 32px;
+        }
+        
+        .action-btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .review-btn {
+            background-color: white;
+            border: 1px solid #cbd5e1;
+            color: #334155;
+        }
+        
+        .review-btn:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .restart-btn {
+            background-color: #3b82f6;
+            border: 1px solid #3b82f6;
+            color: white;
+        }
+        
+        .restart-btn:hover {
+            background-color: #2563eb;
+        }
+        
+        .export-btn {
+            background-color: #10b981;
+            border: 1px solid #10b981;
+            color: white;
+        }
+        
+        .export-btn:hover {
+            background-color: #059669;
+        }
+        
+        .time-warning {
+            background-color: #fef2f2;
+            color: #dc2626;
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
+        }
+        
+        @media (max-width: 640px) {
+            .section {
+                padding: 24px 16px;
+            }
+            
+            .question-nav {
+                grid-template-columns: repeat(5, 1fr);
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>11+ Mock Exam</h1>
+            <p>CGP GL Maths Practice Paper 1</p>
+        </div>
+        
+        <!-- Student Information Form -->
+        <div id="student-info" class="section form-section">
+            <div class="form-group">
+                <label for="student-name">Full Name *</label>
+                <input type="text" id="student-name" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="student-email">Email Address *</label>
+                <input type="email" id="student-email" placeholder="Enter your email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="student-whatsapp">WhatsApp Number *</label>
+                <input type="tel" id="student-whatsapp" placeholder="Enter your WhatsApp number" required>
+            </div>
+            
+            <button id="start-exam" class="btn">Start Exam</button>
+        </div>
+        
+        <!-- Exam Section -->
+        <div id="exam-section" class="section exam-section">
+            <div class="exam-header">
+                <div class="exam-title">Maths Practice Paper 1</div>
+                <div class="timer">Time: <span id="time">50:00</span></div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>Question <span id="current-question">1</span> of 50</span>
+                    <span>Answered: <span id="answered-count">0</span>/50</span>
+                </div>
+                <div class="progress-bar">
+                    <div id="progress" class="progress"></div>
+                </div>
+            </div>
+            
+            <div class="question-nav" id="question-nav">
+                <!-- Generated by JavaScript -->
+            </div>
+            
+            <div class="question-container" id="questions-container">
+                <!-- Generated by JavaScript -->
+            </div>
+            
+            <div class="navigation">
+                <button id="prev-btn" class="nav-btn" disabled>Previous</button>
+                <button id="next-btn" class="nav-btn next-btn">Next</button>
+                <button id="submit-btn" class="nav-btn submit-btn">Submit Exam</button>
+            </div>
+        </div>
+        
+        <!-- Results Section -->
+        <div id="result-section" class="section result-section">
+            <div class="result-header">
+                <div class="result-title">Exam Completed!</div>
+                <div class="score" id="final-score">0/50</div>
+                <div class="feedback" id="feedback-message">Great job! Keep practicing.</div>
+            </div>
+            
+            <div class="review-section">
+                <div class="review-title">Question Review</div>
+                <div id="review-container">
+                    <!-- Generated by JavaScript -->
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button id="export-btn" class="action-btn export-btn">Export Results</button>
+                <button id="restart-btn" class="action-btn restart-btn">Take Exam Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Exam questions data with images and explanations
+            const questions = [
+                {
+                    id: 1,
+                    text: "What is 37 + 48?",
+                    options: ["75", "85", "86", "95"],
+                    correct: 1,
+                    explanation: "37 + 48 = 85. You can break this down: 30 + 40 = 70, and 7 + 8 = 15, so 70 + 15 = 85."
+                },
+                {
+                    id: 2,
+                    text: "Which of these numbers is divisible by both 3 and 4?",
+                    options: ["18", "24", "28", "32"],
+                    correct: 1,
+                    explanation: "24 is divisible by both 3 (24 ÷ 3 = 8) and 4 (24 ÷ 4 = 6)."
+                },
+                {
+                    id: 3,
+                    text: "What is 7 × 8?",
+                    options: ["49", "54", "56", "64"],
+                    correct: 2,
+                    explanation: "7 × 8 = 56. This is a basic multiplication fact you should memorize."
+                },
+                {
+                    id: 4,
+                    text: "If a rectangle has a length of 9cm and a width of 5cm, what is its area?",
+                    image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2UyZThmMCIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxMDAiIHk9IjIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMzMzQxNTUiPlJlY3RhbmdsZTwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM2NDc0OGIiPkwgPSA5Y208L3RleHQ+PHRleHQgeD0iMTAwIiB5PSI2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjNjQ3NDhiIj5XID0gNWNtPC90ZXh0Pjwvc3ZnPg==",
+                    options: ["14 cm²", "28 cm²", "45 cm²", "54 cm²"],
+                    correct: 2,
+                    explanation: "Area of rectangle = length × width = 9cm × 5cm = 45 cm²."
+                },
+                {
+                    id: 5,
+                    text: "What is 126 ÷ 9?",
+                    options: ["12", "13", "14", "15"],
+                    correct: 2,
+                    explanation: "126 ÷ 9 = 14. You can check: 14 × 9 = 126."
+                },
+                {
+                    id: 6,
+                    text: "Which fraction is equal to 0.25?",
+                    options: ["1/5", "1/4", "2/5", "1/3"],
+                    correct: 1,
+                    explanation: "0.25 = 25/100 = 1/4."
+                },
+                {
+                    id: 7,
+                    text: "What is the perimeter of a square with side length 7cm?",
+                    image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB4PSIyMCIgeT0iMjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2UyZThmMCIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI1MCIgeT0iNTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzY0NzQ4YiI+cz03Y208L3RleHQ+PC9zdmc+",
+                    options: ["14cm", "21cm", "28cm", "49cm"],
+                    correct: 2,
+                    explanation: "Perimeter of square = 4 × side = 4 × 7cm = 28cm."
+                },
+                {
+                    id: 8,
+                    text: "If 3x + 5 = 20, what is the value of x?",
+                    options: ["3", "5", "7", "15"],
+                    correct: 1,
+                    explanation: "3x + 5 = 20 → 3x = 15 → x = 5."
+                },
+                {
+                    id: 9,
+                    text: "What is 15% of 200?",
+                    options: ["20", "25", "30", "35"],
+                    correct: 2,
+                    explanation: "15% of 200 = 0.15 × 200 = 30."
+                },
+                {
+                    id: 10,
+                    text: "Which of these is a prime number?",
+                    options: ["21", "23", "25", "27"],
+                    correct: 1,
+                    explanation: "23 is prime (only divisible by 1 and itself). 21 = 3×7, 25 = 5×5, 27 = 3×9."
+                },
+                {
+                    id: 11,
+                    text: "What is the value of 4² + 3²?",
+                    options: ["14", "25", "49", "121"],
+                    correct: 1,
+                    explanation: "4² + 3² = 16 + 9 = 25."
+                },
+                {
+                    id: 12,
+                    text: "If a train travels 120km in 2 hours, what is its average speed?",
+                    options: ["40 km/h", "50 km/h", "60 km/h", "70 km/h"],
+                    correct: 2,
+                    explanation: "Speed = Distance ÷ Time = 120km ÷ 2h = 60 km/h."
+                },
+                {
+                    id: 13,
+                    text: "What is 3/4 of 80?",
+                    options: ["50", "60", "70", "80"],
+                    correct: 1,
+                    explanation: "3/4 × 80 = (3 × 80) ÷ 4 = 240 ÷ 4 = 60."
+                },
+                {
+                    id: 14,
+                    text: "How many lines of symmetry does a regular hexagon have?",
+                    image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cG9seWdvbiBwb2ludHM9IjUwLDEwIDg1LDI1IDg1LDY1IDUwLDkwIDE1LDY1IDE1LDI1IiBmaWxsPSIjZTJlOGYwIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMiIvPjxsaW5lIHgxPSI1MCIgeTE9IjEwIiB4Mj0iNTAiIHkyPSI5MCIgc3Ryb2tlPSIjZmY2YjYiIHN0cm9rZS13aWR0aD0iMSIvPjxsaW5lIHgxPSIxNSIgeTE9IjI1IiB4Mj0iODUiIHkyPSI2NSIgc3Ryb2tlPSIjZmY2YjYiIHN0cm9rZS13aWR0aD0iMSIvPjxsaW5lIHgxPSIxNSIgeTE9IjY1IiB4Mj0iODUiIHkyPSIyNSIgc3Ryb2tlPSIjZmY2YjYiIHN0cm9rZS13aWR0aD0iMSIvPjxsaW5lIHgxPSI1MCIgeTE9IjEwIiB4Mj0iMTUiIHkyPSI2NSIgc3Ryb2tlPSIjZmY2YjYiIHN0cm9rZS13aWR0aD0iMSIvPjxsaW5lIHgxPSI1MCIgeTE9IjEwIiB4Mj0iODUiIHkyPSI2NSIgc3Ryb2tlPSIjZmY2YjYiIHN0cm9rZS13aWR0aD0iMSIvPjwvc3ZnPg==",
+                    options: ["3", "4", "6", "12"],
+                    correct: 2,
+                    explanation: "A regular hexagon has 6 lines of symmetry - one through each pair of opposite vertices and one through the midpoints of opposite sides."
+                },
+                {
+                    id: 15,
+                    text: "What is the next number in the sequence: 2, 6, 18, 54, ...?",
+                    options: ["108", "162", "216", "324"],
+                    correct: 1,
+                    explanation: "Each number is multiplied by 3: 2×3=6, 6×3=18, 18×3=54, 54×3=162."
+                },
+                {
+                    id: 16,
+                    text: "If the temperature drops from 8°C to -5°C, what is the change?",
+                    options: ["3°C", "13°C", "-3°C", "-13°C"],
+                    correct: 1,
+                    explanation: "Change = Final - Initial = -5 - 8 = -13°C. The magnitude of change is 13°C."
+                },
+                {
+                    id: 17,
+                    text: "What is the volume of a cube with side length 4cm?",
+                    image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y3ViZSB4PSIyMCIgeT0iMjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2UyZThmMCIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSI1MCIgeT0iNTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMCIgZmlsbD0iIzY0NzQ4YiI+cz00Y208L3RleHQ+PC9zdmc+",
+                    options: ["16 cm³", "32 cm³", "64 cm³", "128 cm³"],
+                    correct: 2,
+                    explanation: "Volume of cube = side³ = 4³ = 64 cm³."
+                },
+                {
+                    id: 18,
+                    text: "Which of these is closest to 1 kilogram?",
+                    options: ["500g", "900g", "1000g", "1100g"],
+                    correct: 2,
+                    explanation: "1 kilogram = 1000 grams, so 1000g is exactly 1kg."
+                },
+                {
+                    id: 19,
+                    text: "What is 2.5 × 4?",
+                    options: ["8", "9", "10", "12"],
+                    correct: 2,
+                    explanation: "2.5 × 4 = 10. You can think of it as 2 × 4 + 0.5 × 4 = 8 + 2 = 10."
+                },
+                {
+                    id: 20,
+                    text: "If 20% of a number is 30, what is the number?",
+                    options: ["120", "150", "180", "200"],
+                    correct: 1,
+                    explanation: "If 20% = 30, then 100% = 30 × 5 = 150."
+                },
+                {
+                    id: 21,
+                    text: "What is the sum of the angles in a triangle?",
+                    options: ["90°", "180°", "270°", "360°"],
+                    correct: 1,
+                    explanation: "The sum of interior angles in any triangle is always 180°."
+                },
+                {
+                    id: 22,
+                    text: "Which of these decimals is equal to 3/8?",
+                    options: ["0.325", "0.375", "0.425", "0.475"],
+                    correct: 1,
+                    explanation: "3 ÷ 8 = 0.375."
+                },
+                {
+                    id: 23,
+                    text: "What is 17 - 8 + 5?",
+                    options: ["4", "14", "20", "24"],
+                    correct: 1,
+                    explanation: "Work left to right: 17 - 8 = 9, then 9 + 5 = 14."
+                },
+                {
+                    id: 24,
+                    text: "If a = 3 and b = 4, what is a² + b²?",
+                    options: ["14", "25", "49", "144"],
+                    correct: 1,
+                    explanation: "a² + b² = 3² + 4² = 9 + 16 = 25."
+                },
+                {
+                    id: 25,
+                    text: "How many faces does a cube have?",
+                    image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y3ViZSB4PSIyMCIgeT0iMjAiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgZmlsbD0iI2UyZThmMCIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjIiLz48L3N2Zz4=",
+                    options: ["4", "6", "8", "12"],
+                    correct: 1,
+                    explanation: "A cube has 6 faces: top, bottom, front, back, left, and right."
+                },
+                {
+                    id: 26,
+                    text: "What is 3/5 + 1/4?",
+                    options: ["17/20", "4/9", "7/20", "13/20"],
+                    correct: 0,
+                    explanation: "Find common denominator (20): 3/5 = 12/20, 1/4 = 5/20. So 12/20 + 5/20 = 17/20."
+                },
+                {
+                    id: 27,
+                    text: "If a car uses 8 litres of petrol to travel 100km, how much petrol does it need for 250km?",
+                    options: ["16 litres", "18 litres", "20 litres", "22 litres"],
+                    correct: 2,
+                    explanation: "250km is 2.5 times 100km, so petrol needed = 8 × 2.5 = 20 litres."
+                },
+                {
+                    id: 28,
+                    text: "What is the square root of 144?",
+                    options: ["11", "12", "13", "14"],
+                    correct: 1,
+                    explanation: "12 × 12 = 144, so √144 = 12."
+                },
+                {
+                    id: 29,
+                    text: "Which of these is the largest?",
+                    options: ["0.7", "7/10", "70%", "All are equal"],
+                    correct: 3,
+                    explanation: "0.7 = 7/10 = 70% = 0.7, so all are equal."
+                },
+                {
+                    id: 30,
+                    text: "What is 25% of 160?",
+                    options: ["30", "35", "40", "45"],
+                    correct: 2,
+                    explanation: "25% = 1/4, so 1/4 × 160 = 40."
+                },
+                {
+                    id: 31,
+                    text: "If 5 pens cost £1.25, how much do 8 pens cost?",
+                    options: ["£1.75", "£2.00", "£2.25", "£2.50"],
+                    correct: 1,
+                    explanation: "Cost per pen = £1.25 ÷ 5 = £0.25. So 8 pens = 8 × £0.25 = £2.00."
+                },
+                {
+                    id: 32,
+                    text: "What is the difference between -7 and 3?",
+                    options: ["4", "10", "-4", "-10"],
+                    correct: 1,
+                    explanation: "Difference = 3 - (-7) = 3 + 7 = 10."
+                },
+                {
+                    id: 33,
+                    text: "Which shape has 5 sides?",
+                    options: ["Hexagon", "Pentagon", "Octagon", "Quadrilateral"],
+                    correct: 1,
+                    explanation: "A pentagon has 5 sides. Hexagon = 6, Octagon = 8, Quadrilateral = 4."
+                },
+                {
+                    id: 34,
+                    text: "What is 0.6 × 0.7?",
+                    options: ["0.042", "0.42", "4.2", "42"],
+                    correct: 1,
+                    explanation: "0.6 × 0.7 = 0.42. Count decimal places: 1 + 1 = 2 decimal places."
+                },
+                {
+                    id: 35,
+                    text: "If 3/4 of a number is 24, what is the number?",
+                    options: ["18", "32", "36", "48"],
+                    correct: 1,
+                    explanation: "If 3/4 = 24, then 1/4 = 8, so the whole number = 4 × 8 = 32."
+                },
+                {
+                    id: 36,
+                    text: "What is the mean of 4, 8, 6, 10, 2?",
+                    options: ["5", "6", "7", "8"],
+                    correct: 1,
+                    explanation: "Mean = (4 + 8 + 6 + 10 + 2) ÷ 5 = 30 ÷ 5 = 6."
+                },
+                {
+                    id: 37,
+                    text: "How many seconds are in 2.5 minutes?",
+                    options: ["120", "150", "180", "250"],
+                    correct: 1,
+                    explanation: "1 minute = 60 seconds, so 2.5 minutes = 2.5 × 60 = 150 seconds."
+                },
+                {
+                    id: 38,
+                    text: "What is 2³ × 3²?",
+                    options: ["18", "36", "72", "144"],
+                    correct: 2,
+                    explanation: "2³ = 8, 3² = 9, so 8 × 9 = 72."
+                },
+                {
+                    id: 39,
+                    text: "Which of these is NOT a factor of 24?",
+                    options: ["2", "4", "6", "9"],
+                    correct: 3,
+                    explanation: "Factors of 24: 1, 2, 3, 4, 6, 8, 12, 24. 9 is not a factor of 24."
+                },
+                {
+                    id: 40,
+                    text: "If a = 5 and b = 3, what is 2a - b?",
+                    options: ["7", "8", "10", "13"],
+                    correct: 0,
+                    explanation: "2a - b = 2(5) - 3 = 10 - 3 = 7."
+                },
+                {
+                    id: 41,
+                    text: "What is the area of a triangle with base 10cm and height 6cm?",
+                    image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cG9seWdvbiBwb2ludHM9IjUwLDEwIDkwLDkwIDEwLDkwIiBmaWxsPSIjZTJlOGYwIiBzdHJva2U9IiMzYjgyZjYiIHN0cm9rZS13aWR0aD0iMiIvPjx0ZXh0IHg9IjUwIiB5PSI1MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEwIiBmaWxsPSIjNjQ3NDhiIj5iPTEwY208L3RleHQ+PHRleHQgeD0iNzAiIHk9IjgwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM2NDc0OGIiPmg9NmNtPC90ZXh0Pjwvc3ZnPg==",
+                    options: ["15 cm²", "30 cm²", "60 cm²", "120 cm²"],
+                    correct: 1,
+                    explanation: "Area of triangle = ½ × base × height = ½ × 10 × 6 = 30 cm²."
+                },
+                {
+                    id: 42,
+                    text: "Which of these is closest to 1/3?",
+                    options: ["0.3", "0.33", "0.333", "All are equal"],
+                    correct: 2,
+                    explanation: "1/3 = 0.333..., so 0.333 is the closest approximation."
+                },
+                {
+                    id: 43,
+                    text: "What is 7.5 ÷ 0.5?",
+                    options: ["1.5", "15", "3.75", "75"],
+                    correct: 1,
+                    explanation: "7.5 ÷ 0.5 = 7.5 ÷ (1/2) = 7.5 × 2 = 15."
+                },
+                {
+                    id: 44,
+                    text: "If a rectangle's length is twice its width and the width is 5cm, what is the perimeter?",
+                    image: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2UyZThmMCIgc3Ryb2tlPSIjM2I4MmY2IiBzdHJva2Utd2lkdGg9IjIiLz48dGV4dCB4PSIxMDAiIHk9IjIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM2NDc0OGIiPkwgPSAyVzwvdGV4dD48dGV4dCB4PSIxMDAiIHk9IjQwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM2NDc0OGIiPldcblcgPSA1Y208L3RleHQ+PC9zdmc+",
+                    options: ["15cm", "20cm", "30cm", "40cm"],
+                    correct: 2,
+                    explanation: "Width = 5cm, Length = 2 × 5 = 10cm. Perimeter = 2(L + W) = 2(10 + 5) = 30cm."
+                },
+                {
+                    id: 45,
+                    text: "What is 50% of 50% of 100?",
+                    options: ["12.5", "25", "50", "100"],
+                    correct: 1,
+                    explanation: "50% of 100 = 50. 50% of 50 = 25."
+                },
+                {
+                    id: 46,
+                    text: "Which of these numbers is NOT a multiple of 7?",
+                    options: ["21", "35", "48", "56"],
+                    correct: 2,
+                    explanation: "21 = 3×7, 35 = 5×7, 56 = 8×7. 48 is not divisible by 7."
+                },
+                {
+                    id: 47,
+                    text: "What is the value of π (pi) approximately?",
+                    options: ["3.14", "3.16", "3.18", "3.20"],
+                    correct: 0,
+                    explanation: "π ≈ 3.14159, so 3.14 is the closest approximation."
+                },
+                {
+                    id: 48,
+                    text: "If 2x - 3 = 11, what is x?",
+                    options: ["5", "7", "8", "14"],
+                    correct: 1,
+                    explanation: "2x - 3 = 11 → 2x = 14 → x = 7."
+                },
+                {
+                    id: 49,
+                    text: "What is 0.8 as a fraction in its simplest form?",
+                    options: ["4/5", "8/10", "16/20", "80/100"],
+                    correct: 0,
+                    explanation: "0.8 = 8/10 = 4/5 (dividing numerator and denominator by 2)."
+                },
+                {
+                    id: 50,
+                    text: "What is the sum of all angles in a quadrilateral?",
+                    options: ["180°", "270°", "360°", "450°"],
+                    correct: 2,
+                    explanation: "The sum of interior angles in any quadrilateral is 360°."
+                }
+            ];
+
+            // DOM elements
+            const startBtn = document.getElementById('start-exam');
+            const studentInfo = document.getElementById('student-info');
+            const examSection = document.getElementById('exam-section');
+            const resultSection = document.getElementById('result-section');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const submitBtn = document.getElementById('submit-btn');
+            const progress = document.getElementById('progress');
+            const currentQuestionSpan = document.getElementById('current-question');
+            const answeredCountSpan = document.getElementById('answered-count');
+            const questionNav = document.getElementById('question-nav');
+            const questionsContainer = document.getElementById('questions-container');
+            const timeDisplay = document.getElementById('time');
+            const finalScore = document.getElementById('final-score');
+            const feedbackMessage = document.getElementById('feedback-message');
+            const reviewContainer = document.getElementById('review-container');
+            const exportBtn = document.getElementById('export-btn');
+            const restartBtn = document.getElementById('restart-btn');
+
+            // State variables
+            let currentQuestion = 1;
+            const totalQuestions = questions.length;
+            let userAnswers = new Array(totalQuestions).fill(null);
+            let timer;
+            let minutes = 50;
+            let seconds = 0;
+            let timeUp = false;
+            let studentData = {};
+
+            // Initialize the exam
+            function initExam() {
+                createQuestions();
+                createQuestionNav();
+                updateNavigation();
+                updateProgress();
+            }
+
+            // Create question elements
+            function createQuestions() {
+                questions.forEach((question, index) => {
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'question';
+                    if (index === 0) questionDiv.classList.add('active');
+                    
+                    let imageHtml = '';
+                    if (question.image) {
+                        imageHtml = `<img src="${question.image}" alt="Question diagram" class="question-image">`;
+                    }
+                    
+                    questionDiv.innerHTML = `
+                        <div class="question-header">
+                            <div class="question-number">Question ${question.id} of ${totalQuestions}</div>
+                        </div>
+                        <div class="question-text">${question.text}</div>
+                        ${imageHtml}
+                        <div class="options">
+                            ${question.options.map((option, optionIndex) => `
+                                <label class="option" data-question="${question.id}" data-option="${optionIndex}">
+                                    <input type="radio" name="q${question.id}" value="${optionIndex}">
+                                    ${String.fromCharCode(65 + optionIndex)}) ${option}
+                                </label>
+                            `).join('')}
+                        </div>
+                    `;
+                    
+                    questionsContainer.appendChild(questionDiv);
+                });
+
+                // Add event listeners to options
+                document.querySelectorAll('.option').forEach(option => {
+                    option.addEventListener('click', function() {
+                        const questionId = parseInt(this.dataset.question);
+                        const optionIndex = parseInt(this.dataset.option);
+                        
+                        // Update user answers array
+                        userAnswers[questionId - 1] = optionIndex;
+                        
+                        // Update UI
+                        updateAnsweredCount();
+                        updateQuestionNav();
+                        updateProgress();
+                        
+                        // Highlight selected option
+                        document.querySelectorAll(`.option[data-question="${questionId}"]`).forEach(opt => {
+                            opt.classList.remove('selected');
+                        });
+                        this.classList.add('selected');
+                    });
+                });
+            }
+
+            // Create question navigation buttons
+            function createQuestionNav() {
+                questionNav.innerHTML = '';
+                for (let i = 1; i <= totalQuestions; i++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'question-nav-btn';
+                    btn.textContent = i;
+                    btn.dataset.question = i;
+                    btn.addEventListener('click', () => goToQuestion(i));
+                    questionNav.appendChild(btn);
+                }
+                updateQuestionNav();
+            }
+
+            // Update question navigation buttons
+            function updateQuestionNav() {
+                document.querySelectorAll('.question-nav-btn').forEach((btn, index) => {
+                    btn.classList.remove('answered', 'current');
+                    if (userAnswers[index] !== null) {
+                        btn.classList.add('answered');
+                    }
+                    if (index + 1 === currentQuestion) {
+                        btn.classList.add('current');
+                    }
+                });
+            }
+
+            // Go to specific question
+            function goToQuestion(questionNumber) {
+                // Hide current question
+                document.querySelector('.question.active').classList.remove('active');
+                
+                // Show new question
+                const questionElements = document.querySelectorAll('.question');
+                questionElements[questionNumber - 1].classList.add('active');
+                
+                // Update current question
+                currentQuestion = questionNumber;
+                
+                // Update UI
+                updateNavigation();
+                updateProgress();
+                updateQuestionNav();
+                currentQuestionSpan.textContent = currentQuestion;
+            }
+
+            // Update navigation buttons
+            function updateNavigation() {
+                prevBtn.disabled = currentQuestion === 1;
+                nextBtn.style.display = currentQuestion === totalQuestions ? 'none' : 'block';
+                submitBtn.style.display = currentQuestion === totalQuestions ? 'block' : 'none';
+            }
+
+            // Update progress bar and counters
+            function updateProgress() {
+                const progressPercentage = ((currentQuestion - 1) / totalQuestions) * 100;
+                progress.style.width = `${progressPercentage}%`;
+                currentQuestionSpan.textContent = currentQuestion;
+                updateAnsweredCount();
+            }
+
+            // Update answered count
+            function updateAnsweredCount() {
+                const answered = userAnswers.filter(answer => answer !== null).length;
+                answeredCountSpan.textContent = answered;
+            }
+
+            // Start exam
+            startBtn.addEventListener('click', function() {
+                const name = document.getElementById('student-name').value;
+                const email = document.getElementById('student-email').value;
+                const whatsapp = document.getElementById('student-whatsapp').value;
+                
+                if (!name || !email || !whatsapp) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                // Store student data
+                studentData = {
+                    name: name,
+                    email: email,
+                    whatsapp: whatsapp,
+                    timestamp: new Date().toISOString()
+                };
+                
+                // Hide student info form and show exam
+                studentInfo.style.display = 'none';
+                examSection.style.display = 'block';
+                
+                // Start timer
+                startTimer();
+                
+                // Initialize exam
+                initExam();
+            });
+
+            // Navigation buttons
+            nextBtn.addEventListener('click', function() {
+                if (currentQuestion < totalQuestions) {
+                    goToQuestion(currentQuestion + 1);
+                }
+            });
+
+            prevBtn.addEventListener('click', function() {
+                if (currentQuestion > 1) {
+                    goToQuestion(currentQuestion - 1);
+                }
+            });
+
+            // Submit exam
+            submitBtn.addEventListener('click', function() {
+                if (confirm('Are you sure you want to submit your exam?')) {
+                    finishExam();
+                }
+            });
+
+            // Export results
+            exportBtn.addEventListener('click', function() {
+                exportToCSV();
+            });
+
+            // Restart exam
+            restartBtn.addEventListener('click', function() {
+                // Reset state
+                currentQuestion = 1;
+                userAnswers = new Array(totalQuestions).fill(null);
+                minutes = 50;
+                seconds = 0;
+                timeUp = false;
+                
+                // Reset UI
+                timeDisplay.textContent = '50:00';
+                timeDisplay.classList.remove('time-warning');
+                
+                // Clear selections
+                document.querySelectorAll('.option').forEach(option => {
+                    option.classList.remove('selected');
+                });
+                
+                // Hide result section and show exam
+                resultSection.style.display = 'none';
+                examSection.style.display = 'block';
+                
+                // Go to first question
+                goToQuestion(1);
+                
+                // Restart timer
+                clearInterval(timer);
+                startTimer();
+            });
+
+            // Timer function
+            function startTimer() {
+                timer = setInterval(function() {
+                    if (seconds === 0) {
+                        if (minutes === 0) {
+                            clearInterval(timer);
+                            timeUp = true;
+                            finishExam();
+                            return;
+                        }
+                        minutes--;
+                        seconds = 59;
+                    } else {
+                        seconds--;
+                    }
+                    
+                    timeDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                    
+                    // Warning when time is running out
+                    if (minutes < 5) {
+                        timeDisplay.classList.add('time-warning');
+                    }
+                }, 1000);
+            }
+
+            // Create review section
+            function createReviewSection() {
+                reviewContainer.innerHTML = '';
+                
+                let score = 0;
+                questions.forEach((question, index) => {
+                    const userAnswer = userAnswers[index];
+                    const isCorrect = userAnswer === question.correct;
+                    if (isCorrect) score++;
+                    
+                    const reviewDiv = document.createElement('div');
+                    reviewDiv.className = 'question-review';
+                    
+                    let imageHtml = '';
+                    if (question.image) {
+                        imageHtml = `<img src="${question.image}" alt="Question diagram" class="question-image" style="max-width: 200px;">`;
+                    }
+                    
+                    reviewDiv.innerHTML = `
+                        <div class="question-review-header">
+                            <div class="question-review-number">Question ${question.id}</div>
+                            <div class="status ${isCorrect ? 'correct' : 'incorrect'}">
+                                ${isCorrect ? '✓ Correct' : '✗ Incorrect'}
+                            </div>
+                        </div>
+                        <div class="question-review-text">${question.text}</div>
+                        ${imageHtml}
+                        ${userAnswer !== null ? 
+                            `<div class="user-answer">Your answer: ${String.fromCharCode(65 + userAnswer)}) ${question.options[userAnswer]}</div>` : 
+                            `<div class="user-answer">Your answer: Not answered</div>`
+                        }
+                        <div class="correct-answer">Correct answer: ${String.fromCharCode(65 + question.correct)}) ${question.options[question.correct]}</div>
+                        <div class="explanation">${question.explanation}</div>
+                    `;
+                    
+                    reviewContainer.appendChild(reviewDiv);
+                });
+                
+                return score;
+            }
+
+            // Export to CSV for Google Sheets
+            function exportToCSV() {
+                // Prepare data
+                const headers = ['Student Name', 'Email', 'WhatsApp', 'Timestamp', 'Score', 'Percentage'];
+                for (let i = 1; i <= totalQuestions; i++) {
+                    headers.push(`Q${i}_Answer`, `Q${i}_Correct`, `Q${i}_Result`);
+                }
+                
+                const score = createReviewSection(); // This also calculates score
+                const percentage = Math.round((score / totalQuestions) * 100);
+                
+                const rowData = [
+                    studentData.name,
+                    studentData.email,
+                    studentData.whatsapp,
+                    studentData.timestamp,
+                    score,
+                    percentage
+                ];
+                
+                // Add question data
+                questions.forEach((question, index) => {
+                    const userAnswer = userAnswers[index];
+                    const userAnswerText = userAnswer !== null ? String.fromCharCode(65 + userAnswer) : 'Unanswered';
+                    const correctAnswerText = String.fromCharCode(65 + question.correct);
+                    const isCorrect = userAnswer === question.correct ? 'Correct' : 'Incorrect';
+                    
+                    rowData.push(userAnswerText, correctAnswerText, isCorrect);
+                });
+                
+                // Create CSV
+                const csvContent = [
+                    headers.join(','),
+                    rowData.join(',')
+                ].join('\n');
+                
+                // Download CSV
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.setAttribute('href', url);
+                link.setAttribute('download', `11plus_results_${studentData.name.replace(/\s+/g, '_')}.csv`);
+                link.style.visibility = 'hidden';
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            }
+
+            // Finish exam and show results
+            function finishExam() {
+                clearInterval(timer);
+                
+                // Create review section and calculate score
+                const score = createReviewSection();
+                
+                // Calculate percentage
+                const percentage = Math.round((score / totalQuestions) * 100);
+                
+                // Set final score
+                finalScore.textContent = `${score}/${totalQuestions}`;
+                
+                // Set feedback message
+                if (percentage >= 90) {
+                    feedbackMessage.textContent = "Excellent! Outstanding performance!";
+                } else if (percentage >= 80) {
+                    feedbackMessage.textContent = "Great job! Very good work!";
+                } else if (percentage >= 70) {
+                    feedbackMessage.textContent = "Good effort! Keep practicing!";
+                } else if (percentage >= 60) {
+                    feedbackMessage.textContent = "Nice try! Review your answers and practice more.";
+                } else {
+                    feedbackMessage.textContent = "Keep practicing! You'll improve with more study.";
+                }
+                
+                // Hide exam and show results
+                examSection.style.display = 'none';
+                resultSection.style.display = 'block';
+                
+                // If time was up, show message
+                if (timeUp) {
+                    alert('Time is up! Your exam has been automatically submitted.');
+                }
+            }
+
+            // Initialize on load
+            updateProgress();
+        });
+    </script>
+</body>
+</html>
